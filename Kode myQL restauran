@@ -1,1 +1,310 @@
+CREATE DATABASE db_restaurant;
+
+
+CREATE TABLE `tb_detail_dine_in` (
+  `id` INT(10) NOT NULL,
+  `id_dine_in` INT(10) NOT NULL,
+  `id_menu` INT(10) NOT NULL,
+  `qty` INT(11) NOT NULL,
+  `price` INT(11) NOT NULL,
+  `sub_total` INT(11) NOT NULL
+) ENGINE=INNODB DEFAULT CHARSET=utf8mb4;
+
+
+
+INSERT INTO `tb_detail_dine_in` (`id`, `id_dine_in`, `id_menu`, `qty`, `price`, `sub_total`) VALUES
+(1, 1, 3, 1, 20000, 20000),
+(2, 2, 1, 1, 10000, 10000),
+(3, 3, 2, 1, 25000, 25000),
+(4, 4, 2, 1, 25000, 25000),
+(5, 5, 2, 1, 25000, 2500);
+
+
+
+CREATE TABLE `tb_detail_take_away` (
+  `id` INT(10) NOT NULL,
+  `id_take_away` INT(10) NOT NULL,
+  `id_menu` INT(10) NOT NULL,
+  `qty` INT(11) NOT NULL,
+  `price` INT(11) NOT NULL,
+  `sub_total` INT(11) NOT NULL
+) ENGINE=INNODB DEFAULT CHARSET=utf8mb4;
+
+
+
+INSERT INTO `tb_detail_take_away` (`id`, `id_take_away`, `id_menu`, `qty`, `price`, `sub_total`) VALUES
+(1, 1, 2, 1, 25000, 25000),
+(3, 2, 4, 1, 20000, 20000),
+(4, 2, 6, 1, 6000, 6000),
+(5, 3, 4, 1, 20000, 20000),
+(6, 4, 8, 1, 6000, 6000),
+(7, 5, 1, 1, 10000, 10000);
+
+
+
+CREATE TABLE `tb_dine_in` (
+  `id` INT(10) NOT NULL,
+  `id_customer` INT(10) NOT NULL,
+  `id_staff` INT(10) NOT NULL,
+  `id_table` INT(10) NOT NULL,
+  `total_payment` INT(11) NOT NULL,
+  `status` ENUM('EXPIRED','CANCELLED','SUCCESS') DEFAULT NULL,
+  `create_date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP()
+) ENGINE=INNODB DEFAULT CHARSET=utf8mb4;
+
+
+
+INSERT INTO `tb_dine_in` (`id`, `id_customer`, `id_staff`, `id_table`, `total_payment`, `status`, `create_date`) VALUES
+(1, 2, 1, 1, 20000, 'SUCCESS', '2022-05-29 15:25:40'),
+(2, 2, 1, 2, 10000, 'SUCCESS', '2022-05-29 15:26:02'),
+(3, 2, 1, 3, 25000, 'SUCCESS', '2022-05-29 15:26:18'),
+(4, 3, 1, 3, 25000, 'SUCCESS', '2022-05-29 15:27:07'),
+(5, 3, 1, 1, 25000, 'SUCCESS', '2022-05-29 15:27:59');
+
+
+
+CREATE TABLE `tb_menu` (
+  `id` INT(10) NOT NULL,
+  `menu_name` VARCHAR(255) NOT NULL,
+  `id_menu_type` INT(10) NOT NULL,
+  `price` INT(11) NOT NULL,
+  `stock` INT(11) NOT NULL
+) ENGINE=INNODB DEFAULT CHARSET=utf8mb4;
+
+
+
+INSERT INTO `tb_menu` (`id`, `menu_name`, `id_menu_type`, `price`, `stock`) VALUES
+(1, 'Es Buah', 2, 10000, 100),
+(2, 'Nasi Goreng', 1, 25000, 100),
+(3, 'Mie Goreng', 1, 20000, 100),
+(4, 'Fuyunghay', 1, 20000, 100),
+(5, 'CapCay', 1, 15000, 100),
+(6, 'Es Teh', 2, 6000, 100),
+(8, 'Es Jeruk', 2, 6000, 100);
+
+
+
+CREATE TABLE `tb_menu_type` (
+  `id` INT(10) NOT NULL,
+  `menu_type` VARCHAR(50) NOT NULL
+) ENGINE=INNODB DEFAULT CHARSET=utf8mb4;
+
+
+
+INSERT INTO `tb_menu_type` (`id`, `menu_type`) VALUES
+(1, 'Food'),
+(2, 'Drink');
+
+
+
+CREATE TABLE `tb_role` (
+  `id` INT(10) NOT NULL,
+  `role` VARCHAR(20) NOT NULL
+) ENGINE=INNODB DEFAULT CHARSET=utf8mb4;
+
+
+
+INSERT INTO `tb_role` (`id`, `role`) VALUES
+(1, 'admin'),
+(2, 'customer');
+
+
+
+CREATE TABLE `tb_table` (
+  `id` INT(10) NOT NULL,
+  `number_table` INT(11) NOT NULL,
+  `position` VARCHAR(255) NOT NULL
+) ENGINE=INNODB DEFAULT CHARSET=utf8mb4;
+
+
+
+INSERT INTO `tb_table` (`id`, `number_table`, `position`) VALUES
+(1, 1, ''),
+(2, 2, ''),
+(3, 3, ''),
+(4, 4, ''),
+(5, 5, ''),
+(6, 6, ''),
+(7, 7, ''),
+(8, 8, ''),
+(9, 9, ''),
+(10, 10, '');
+
+
+
+CREATE TABLE `tb_take_away` (
+  `id` INT(10) NOT NULL,
+  `id_customer` INT(10) NOT NULL,
+  `id_staff` INT(10) NOT NULL,
+  `reciever_address` VARCHAR(255) NOT NULL,
+  `reciever_phone_number` VARCHAR(15) NOT NULL,
+  `total_payment` INT(11) NOT NULL,
+  `create_date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP()
+) ENGINE=INNODB DEFAULT CHARSET=utf8mb4;
+
+
+INSERT INTO `tb_take_away` (`id`, `id_customer`, `id_staff`, `reciever_address`, `reciever_phone_number`, `total_payment`, `create_date`) VALUES
+(1, 2, 1, 'Badung', '088888888888', 25000, '2022-05-29 15:06:47'),
+(2, 3, 1, 'Denpasar', '088888888888', 26000, '2022-05-29 15:12:14'),
+(3, 4, 1, 'Denpasar', '088888888888', 20000, '2022-05-29 15:14:19'),
+(4, 4, 1, 'Denpasar', '088888888888', 6000, '2022-05-29 15:18:00'),
+(5, 4, 1, 'Denpasar', '088888888888', 10000, '2022-05-29 15:18:20');
+
+
+
+CREATE TABLE `tb_user` (
+  `id` INT(10) NOT NULL,
+  `name` VARCHAR(255) NOT NULL,
+  `id_role` INT(10) NOT NULL,
+  `phone_number` VARCHAR(15) NOT NULL,
+  `address` VARCHAR(255) NOT NULL
+) ENGINE=INNODB DEFAULT CHARSET=utf8mb4;
+
+
+INSERT INTO `tb_user` (`id`, `name`, `id_role`, `phone_number`, `address`) VALUES
+(1, 'admin', 1, '088888888888', 'Denpasar'),
+(2, 'Bejo', 2, '088888888888', 'Badung'),
+(3, 'Dika', 2, '088888888888', 'Denpasar'),
+(4, 'Doni', 2, '088888888888', 'Denpasar'),
+(5, 'Sari', 2, '088888888888', 'Denpasar');
+
+ALTER TABLE `tb_detail_dine_in`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_dine_in` (`id_dine_in`),
+  ADD KEY `id_menu` (`id_menu`);
+
+
+ALTER TABLE `tb_detail_take_away`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_take_away` (`id_take_away`),
+  ADD KEY `id_menu` (`id_menu`);
+
+
+ALTER TABLE `tb_dine_in`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_customer` (`id_customer`),
+  ADD KEY `id_staff` (`id_staff`),
+  ADD KEY `id_table` (`id_table`);
+
+ALTER TABLE `tb_menu`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_menu_type` (`id_menu_type`);
+
+
+ALTER TABLE `tb_menu_type`
+  ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `tb_role`
+  ADD PRIMARY KEY (`id`);
+
+
+ALTER TABLE `tb_table`
+  ADD PRIMARY KEY (`id`);
+
+
+ALTER TABLE `tb_take_away`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_customer` (`id_customer`),
+  ADD KEY `id_staff` (`id_staff`);
+
+
+ALTER TABLE `tb_user`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_role` (`id_role`);
+
+
+ALTER TABLE `tb_detail_dine_in`
+  MODIFY `id` INT(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+
+ALTER TABLE `tb_detail_take_away`
+  MODIFY `id` INT(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+ALTER TABLE `tb_dine_in`
+  MODIFY `id` INT(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+
+ALTER TABLE `tb_menu`
+  MODIFY `id` INT(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+ALTER TABLE `tb_menu_type`
+  MODIFY `id` INT(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+
+ALTER TABLE `tb_role`
+  MODIFY `id` INT(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+
+ALTER TABLE `tb_table`
+  MODIFY `id` INT(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+
+ALTER TABLE `tb_take_away`
+  MODIFY `id` INT(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+
+ALTER TABLE `tb_user`
+  MODIFY `id` INT(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+
+ALTER TABLE `tb_detail_dine_in`
+  ADD CONSTRAINT `tb_detail_dine_in_ibfk_1` FOREIGN KEY (`id_dine_in`) REFERENCES `tb_dine_in` (`id`),
+  ADD CONSTRAINT `tb_detail_dine_in_ibfk_2` FOREIGN KEY (`id_menu`) REFERENCES `tb_menu` (`id`);
+
+
+ALTER TABLE `tb_detail_take_away`
+  ADD CONSTRAINT `tb_detail_take_away_ibfk_1` FOREIGN KEY (`id_take_away`) REFERENCES `tb_take_away` (`id`),
+  ADD CONSTRAINT `tb_detail_take_away_ibfk_2` FOREIGN KEY (`id_menu`) REFERENCES `tb_menu` (`id`);
+
+
+ALTER TABLE `tb_dine_in`
+  ADD CONSTRAINT `tb_dine_in_ibfk_1` FOREIGN KEY (`id_customer`) REFERENCES `tb_user` (`id`),
+  ADD CONSTRAINT `tb_dine_in_ibfk_2` FOREIGN KEY (`id_staff`) REFERENCES `tb_user` (`id`),
+  ADD CONSTRAINT `tb_dine_in_ibfk_3` FOREIGN KEY (`id_table`) REFERENCES `tb_table` (`id`);
+
+ALTER TABLE `tb_menu`
+  ADD CONSTRAINT `tb_menu_ibfk_1` FOREIGN KEY (`id_menu_type`) REFERENCES `tb_menu_type` (`id`);
+
+ALTER TABLE `tb_take_away`
+  ADD CONSTRAINT `tb_take_away_ibfk_1` FOREIGN KEY (`id_customer`) REFERENCES `tb_user` (`id`),
+  ADD CONSTRAINT `tb_take_away_ibfk_2` FOREIGN KEY (`id_staff`) REFERENCES `tb_user` (`id`);
+
+
+ALTER TABLE `tb_user`
+  ADD CONSTRAINT `tb_user_ibfk_1` FOREIGN KEY (`id_role`) REFERENCES `tb_role` (`id`);
+COMMIT;
+
+
+//1
+SELECT tb_user.name, COUNT(tb_dine_in.id_customer) AS total_transaction FROM tb_user 
+JOIN tb_dine_in ON tb_user.id=tb_dine_in.id_customer 
+WHERE DATE(tb_dine_in.create_date)= '2022-05-29' 
+GROUP BY tb_user.id HAVING COUNT(tb_dine_in.id_customer)>1 
+ORDER BY total_transaction DESC;
+
+//2
+SELECT tb_user.name, SUM(tb_dine_in.total_payment) AS total_buying FROM tb_dine_in
+JOIN tb_user ON tb_user.id = tb_dine_in.id_customer
+WHERE tb_dine_in.status='SUCCESS'
+GROUP BY tb_dine_in.id_customer ASC LIMIT 1;
+
+//3 a dinein
+SELECT tb_menu.menu_name, SUM(tb_detail_dine_in.qty) AS total_request FROM tb_detail_dine_in
+JOIN tb_menu ON tb_menu.id = tb_detail_dine_in.id_menu
+JOIN tb_dine_in ON tb_dine_in.id = tb_detail_dine_in.id_dine_in
+WHERE YEAR(tb_dine_in.create_date)= 2022
+GROUP BY tb_menu.id;
+
+//3 b take away
+SELECT tb_menu.menu_name, SUM(tb_detail_take_away.qty) AS total_request FROM tb_detail_take_away
+JOIN tb_menu ON tb_menu.id = tb_detail_take_away.id_menu
+JOIN tb_take_away ON tb_take_away.id = tb_detail_take_away.id_take_away
+WHERE YEAR(tb_take_away.create_date)= 2022
+GROUP BY tb_menu.id;
+
+//4 
+SELECT tb_table.number_table, SUM(tb_table.time_preperation) AS time_active FROM tb_table JOIN tb_dine_in 
+ON tb_dine_in.id_table=tb_table.id
+WHERE DATE(tb_dine_in.create_date) = '2022-05-29'
+GROUP BY tb_dine_in.id_table;
 
